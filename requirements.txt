@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+python-dotenv
+playwright
+groq
+requests
+pandas
+beautifulsoup4
+httpx
+pdfplumber
+matplotlib
