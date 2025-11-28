@@ -1,6 +1,6 @@
 # LLM Quiz Solver - LangGraph Implementation
 
-An intelligent, autonomous agent built with **LangGraph** and **Google Gemini Flash** that solves data-related quizzes involving web scraping, data processing, analysis, and visualization tasks.
+An intelligent, autonomous agent built with **LangGraph** and **Groq (Llama 4 Maverick)** that solves data-related quizzes involving web scraping, data processing, analysis, and visualization tasks.
 
 ## 🔍 Overview
 
@@ -22,7 +22,7 @@ The project uses a **LangGraph state machine** architecture:
        │
        ▼
 ┌─────────────┐
-│ LangGraph   │  ← Agent with Gemini 2.0 Flash
+│ LangGraph   │  ← Agent with Llama 4 Maverick
 │   Agent     │
 └──────┬──────┘
        │
@@ -69,10 +69,10 @@ Create a `.env` file:
 ```bash
 MY_EMAIL=your.email@example.com
 MY_SECRET=your_secret_string
-GOOGLE_API_KEY=your_gemini_api_key
+GROQ_API_KEY=your_groq_api_key
 ```
 
-Get a Gemini API key from [Google AI Studio](https://aistudio.google.com/apikey).
+Get a Groq API key from [Groq Console](https://console.groq.com/keys).
 
 ## 🚀 Usage
 
@@ -151,7 +151,7 @@ docker build -t llm-quiz-solver .
 docker run -p 7860:7860 \\
   -e MY_EMAIL="your.email@example.com" \\
   -e MY_SECRET="your_secret" \\
-  -e GOOGLE_API_KEY="your_api_key" \\
+  -e GROQ_API_KEY="your_api_key" \\
   llm-quiz-solver
 ```
 
@@ -162,7 +162,7 @@ docker run -p 7860:7860 \\
 3. Add secrets in Space settings:
    - `MY_EMAIL`
    - `MY_SECRET`
-   - `GOOGLE_API_KEY`
+   - `GROQ_API_KEY`
 
 Your endpoint will be: `https://<username>-<space>.hf.space/solve`
 
