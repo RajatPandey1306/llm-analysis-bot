@@ -9,7 +9,7 @@ COPY pyproject.toml .
 COPY agent.py .
 COPY main.py .
 COPY tools/ tools/
-COPY .env .env
+# Note: .env is not copied - use HuggingFace Space secrets instead
 
 # Sync dependencies
 RUN uv sync
