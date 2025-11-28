@@ -1,3 +1,13 @@
+---
+title: LLM Quiz Solver
+emoji: 🤖
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # LLM Quiz Solver - LangGraph Implementation
 
 An intelligent, autonomous agent built with **LangGraph** and **Groq (Llama 4 Maverick)** that solves data-related quizzes involving web scraping, data processing, analysis, and visualization tasks.
