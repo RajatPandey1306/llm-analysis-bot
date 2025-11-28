@@ -85,8 +85,8 @@ Server starts at `http://0.0.0.0:7860`
 
 ### Test the Endpoint
 ```bash
-curl -X POST http://localhost:7860/solve \\
-  -H "Content-Type: application/json" \\
+curl -X POST http://localhost:7860/quiz \
+  -H "Content-Type: application/json" \
   -d '{
     "email": "your.email@example.com",
     "secret": "your_secret_string",
@@ -97,13 +97,13 @@ curl -X POST http://localhost:7860/solve \\
 Expected response:
 ```json
 {
-  "status": "ok"
+  "status": "accepted"
 }
 ```
 
 ## 🌐 API Endpoints
 
-### POST /solve
+### POST /quiz
 Receives quiz tasks and triggers the autonomous agent.
 
 **Request:**
@@ -116,9 +116,9 @@ Receives quiz tasks and triggers the autonomous agent.
 ```
 
 **Responses:**
-- `200`: Secret verified, agent started
-- `400`: Invalid JSON payload
-- `403`: Invalid secret
+- `200`: Secret and email verified, agent started (returns `{"status": "accepted"}`)
+- `400`: Invalid JSON payload or missing required fields
+- `403`: Invalid secret or email
 
 ### GET /healthz
 Health check endpoint.
@@ -164,15 +164,17 @@ docker run -p 7860:7860 \\
    - `MY_SECRET`
    - `GROQ_API_KEY`
 
-Your endpoint will be: `https://<username>-<space>.hf.space/solve`
+Your endpoint will be: `https://<username>-<space>.hf.space/quiz`
 
 ## 📝 Requirements
 
-- **API Endpoint**: POST to `/solve` with email/secret/url
-- **Secret Verification**: Returns 403 for invalid secrets
+- **API Endpoint**: POST to `/quiz` with email/secret/url
+- **Secret & Email Verification**: Returns 403 for invalid credentials
+- **Validation**: Returns 400 for invalid JSON or missing fields
 - **Time Limit**: Solves each quiz within 3 minutes
 - **Quiz Chaining**: Follows quiz chains until completion
 - **Response Format**: JSON with appropriate status codes
+- **Security**: Credentials are never exposed to the LLM
 
 ## 📄 License
 

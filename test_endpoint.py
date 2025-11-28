@@ -8,7 +8,7 @@ import json
 # Configuration - UPDATE THESE
 EMAIL = "21f3001699@ds.study.iitm.ac.in"
 SECRET = "Cb350_RS"
-ENDPOINT_URL = "http://localhost:8000/quiz"  # Change to your ngrok URL for remote testing
+ENDPOINT_URL = "http://localhost:7860/quiz"  # Change to your ngrok URL for remote testing
 
 # Demo quiz URL
 DEMO_URL = "https://tds-llm-analysis.s-anand.net/demo"
@@ -100,6 +100,63 @@ def test_invalid_json():
         print(f"✗ Error: {e}")
 
 
+def test_wrong_email():
+    """Test with wrong email (should get 403)"""
+
+    payload = {
+        "email": "wrong@email.com",
+        "secret": SECRET,
+        "url": DEMO_URL
+    }
+
+    print("\n\nTesting with wrong email...")
+
+    try:
+        response = requests.post(
+            ENDPOINT_URL,
+            json=payload,
+            timeout=10
+        )
+
+        print(f"Response Status: {response.status_code}")
+
+        if response.status_code == 403:
+            print("✓ Correctly rejected invalid email")
+        else:
+            print("✗ Expected 403 status code")
+
+    except Exception as e:
+        print(f"✗ Error: {e}")
+
+
+def test_missing_fields():
+    """Test with missing required fields (should get 400)"""
+
+    payload = {
+        "email": EMAIL
+        # Missing secret and url
+    }
+
+    print("\n\nTesting with missing required fields...")
+
+    try:
+        response = requests.post(
+            ENDPOINT_URL,
+            json=payload,
+            timeout=10
+        )
+
+        print(f"Response Status: {response.status_code}")
+
+        if response.status_code == 400:
+            print("✓ Correctly rejected incomplete payload")
+        else:
+            print("✗ Expected 400 status code")
+
+    except Exception as e:
+        print(f"✗ Error: {e}")
+
+
 if __name__ == "__main__":
     print("="*60)
     print("LLM Analysis Quiz - Endpoint Test")
@@ -111,8 +168,14 @@ if __name__ == "__main__":
     # Test 2: Wrong secret
     test_wrong_secret()
 
-    # Test 3: Invalid JSON
+    # Test 3: Wrong email
+    test_wrong_email()
+
+    # Test 4: Invalid JSON
     test_invalid_json()
+
+    # Test 5: Missing fields
+    test_missing_fields()
 
     print("\n" + "="*60)
     print("Testing complete!")

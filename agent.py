@@ -44,7 +44,7 @@ llm = init_chat_model(
 # -------------------------------------------------
 # SYSTEM PROMPT
 # -------------------------------------------------
-SYSTEM_PROMPT = f"""
+SYSTEM_PROMPT = """
 You are an autonomous quiz-solving agent.
 
 Your job is to:
@@ -76,9 +76,10 @@ STOPPING CONDITION:
 - Only return "END" when a server response explicitly contains NO new URL.
 - DO NOT return END under any other condition.
 
-ADDITIONAL INFORMATION YOU MUST INCLUDE WHEN REQUIRED:
-- Email: {EMAIL}
-- Secret: {SECRET}
+AUTHENTICATION:
+- When submitting answers using the post_request tool, the system will automatically
+  include the required email and secret credentials in the payload.
+- You do not need to manually add these fields - they are injected automatically.
 
 YOUR JOB:
 - Follow pages exactly.

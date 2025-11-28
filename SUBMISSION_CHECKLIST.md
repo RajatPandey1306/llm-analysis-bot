@@ -39,7 +39,7 @@ Copy this exactly (no trailing spaces).
 
 **Steps to get your URL**:
 1. Start your server: `python main.py`
-2. In another terminal: `ngrok http 8000`
+2. In another terminal: `ngrok http 7860`
 3. Copy the HTTPS forwarding URL from ngrok
 4. Add `/quiz` to the end
 5. Example: `https://1a2b-3c4d-5e6f.ngrok-free.app/quiz`

@@ -32,8 +32,8 @@ def healthz():
         "uptime_seconds": int(time.time() - START_TIME)
     }
 
-@app.post("/solve")
-async def solve(request: Request, background_tasks: BackgroundTasks):
+@app.post("/quiz")
+async def quiz(request: Request, background_tasks: BackgroundTasks):
     try:
         data = await request.json()
     except Exception:
@@ -44,17 +44,24 @@ async def solve(request: Request, background_tasks: BackgroundTasks):
 
     url = data.get("url")
     secret = data.get("secret")
+    email = data.get("email")
 
-    if not url or not secret:
+    # Validate all required fields are present
+    if not url or not secret or not email:
         raise HTTPException(status_code=400, detail="Invalid JSON")
 
+    # Validate secret matches
     if secret != SECRET:
         raise HTTPException(status_code=403, detail="Invalid secret")
+
+    # Validate email matches
+    if email != EMAIL:
+        raise HTTPException(status_code=403, detail="Invalid email")
 
     print("Verified, starting the task...")
     background_tasks.add_task(run_agent, url)
 
-    return JSONResponse(status_code=200, content={"status": "ok"})
+    return JSONResponse(status_code=200, content={"status": "accepted"})
 
 
 if __name__ == "__main__":

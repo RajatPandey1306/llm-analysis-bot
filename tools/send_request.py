@@ -1,6 +1,7 @@
 from langchain_core.tools import tool
 import requests
 import json
+import os
 from typing import Any, Dict, Optional
 
 @tool
@@ -12,11 +13,14 @@ def post_request(url: str, payload: Dict[str, Any], headers: Optional[Dict[str, 
     as a Tool or used inside a Runnable to call external APIs, webhooks, or backend
     services during graph execution.
 
+    IMPORTANT: This tool automatically injects the email and secret credentials
+    into the payload for quiz submissions. You do not need to add these fields manually.
+
     REMEMBER: This a blocking function so it may take a while to return. Wait for the response.
 
     Args:
         url (str): The endpoint to send the POST request to.
-        payload (Dict[str, Any]): The JSON-serializable request body.
+        payload (Dict[str, Any]): The JSON-serializable request body (without email/secret).
         headers (Optional[Dict[str, str]]): Optional HTTP headers to include
             in the request. If omitted, a default JSON header is applied.
 
@@ -28,6 +32,16 @@ def post_request(url: str, payload: Dict[str, Any], headers: Optional[Dict[str, 
         requests.HTTPError: If the server responds with an unsuccessful status.
         requests.RequestException: For network-related errors.
     """
+    # Automatically inject credentials from environment variables
+    email = os.getenv("MY_EMAIL")
+    secret = os.getenv("MY_SECRET")
+
+    # Add credentials to payload if not already present
+    if email and "email" not in payload:
+        payload["email"] = email
+    if secret and "secret" not in payload:
+        payload["secret"] = secret
+
     headers = headers or {"Content-Type": "application/json"}
     try:
         print(f"\\nSending Answer \\n{json.dumps(payload, indent=4)}\\n to url: {url}")
